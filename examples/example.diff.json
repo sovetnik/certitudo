@@ -1,0 +1,603 @@
+{
+  "schema_version": 2,
+  "left_run": {
+    "id": "example-left",
+    "label": "example-left",
+    "coverdata_path": "/tmp/example-left.coverdata"
+  },
+  "right_run": {
+    "id": "example-right",
+    "label": "example-right",
+    "coverdata_path": "/tmp/example-right.coverdata"
+  },
+  "summary": {
+    "modules_left": 1,
+    "modules_right": 1,
+    "added": 0,
+    "removed": 0,
+    "changed": 1
+  },
+  "added_modules": [],
+  "removed_modules": [],
+  "changed_modules": [
+    {
+      "module": "Elixir.Certitudo.Example",
+      "source_changed": true,
+      "left": {
+        "coverage_percent": 50.0,
+        "covered_lines": 5,
+        "executable_lines": 10,
+        "source_sha256": "left",
+        "source_size": 100
+      },
+      "right": {
+        "coverage_percent": 60.0,
+        "covered_lines": 6,
+        "executable_lines": 10,
+        "source_sha256": "right",
+        "source_size": 110
+      },
+      "block_diffs": [
+        {
+          "status": "new_covered",
+          "left": null,
+          "right": {
+            "range": {
+              "first": 10,
+              "last": 10,
+              "numbers": [10]
+            },
+            "lines": [
+              {
+                "number": 10,
+                "calls": 1,
+                "covered": true,
+                "text": "loads_profile_fixture()"
+              }
+            ]
+          },
+          "residue": {
+            "reason": "coverage_changed",
+            "entries": [
+              {
+                "status": "new_covered",
+                "left": null,
+                "right": {
+                  "number": 10,
+                  "calls": 1,
+                  "covered": true,
+                  "text": "loads_profile_fixture()"
+                }
+              }
+            ],
+            "blocks": [],
+            "details": null
+          }
+        },
+        {
+          "status": "existing_coverage_gained",
+          "left": {
+            "range": {
+              "first": 12,
+              "last": 12,
+              "numbers": [12]
+            },
+            "lines": [
+              {
+                "number": 12,
+                "calls": 0,
+                "covered": false,
+                "text": "validates_transition_guard()"
+              }
+            ]
+          },
+          "right": {
+            "range": {
+              "first": 12,
+              "last": 12,
+              "numbers": [12]
+            },
+            "lines": [
+              {
+                "number": 12,
+                "calls": 1,
+                "covered": true,
+                "text": "validates_transition_guard()"
+              }
+            ]
+          },
+          "residue": {
+            "reason": "coverage_changed",
+            "entries": [
+              {
+                "status": "existing_coverage_gained",
+                "left": {
+                  "number": 12,
+                  "calls": 0,
+                  "covered": false,
+                  "text": "validates_transition_guard()"
+                },
+                "right": {
+                  "number": 12,
+                  "calls": 1,
+                  "covered": true,
+                  "text": "validates_transition_guard()"
+                }
+              }
+            ],
+            "blocks": [],
+            "details": null
+          }
+        },
+        {
+          "status": "new_uncovered",
+          "left": null,
+          "right": {
+            "range": {
+              "first": 14,
+              "last": 14,
+              "numbers": [14]
+            },
+            "lines": [
+              {
+                "number": 14,
+                "calls": 0,
+                "covered": false,
+                "text": "persists_audit_envelope()"
+              }
+            ]
+          },
+          "residue": {
+            "reason": "coverage_changed",
+            "entries": [
+              {
+                "status": "new_uncovered",
+                "left": null,
+                "right": {
+                  "number": 14,
+                  "calls": 0,
+                  "covered": false,
+                  "text": "persists_audit_envelope()"
+                }
+              }
+            ],
+            "blocks": [],
+            "details": null
+          }
+        },
+        {
+          "status": "removed_uncovered",
+          "left": {
+            "range": {
+              "first": 16,
+              "last": 16,
+              "numbers": [16]
+            },
+            "lines": [
+              {
+                "number": 16,
+                "calls": 0,
+                "covered": false,
+                "text": "drops_legacy_retry_branch()"
+              }
+            ]
+          },
+          "right": null,
+          "residue": {
+            "reason": "coverage_changed",
+            "entries": [
+              {
+                "status": "removed_uncovered",
+                "left": {
+                  "number": 16,
+                  "calls": 0,
+                  "covered": false,
+                  "text": "drops_legacy_retry_branch()"
+                },
+                "right": null
+              }
+            ],
+            "blocks": [],
+            "details": null
+          }
+        },
+        {
+          "status": "removed_covered",
+          "left": {
+            "range": {
+              "first": 18,
+              "last": 18,
+              "numbers": [18]
+            },
+            "lines": [
+              {
+                "number": 18,
+                "calls": 1,
+                "covered": true,
+                "text": "removes_shadow_dispatch()"
+              }
+            ]
+          },
+          "right": null,
+          "residue": {
+            "reason": "coverage_changed",
+            "entries": [
+              {
+                "status": "removed_covered",
+                "left": {
+                  "number": 18,
+                  "calls": 1,
+                  "covered": true,
+                  "text": "removes_shadow_dispatch()"
+                },
+                "right": null
+              }
+            ],
+            "blocks": [],
+            "details": null
+          }
+        },
+        {
+          "status": "existing_coverage_lost",
+          "left": {
+            "range": {
+              "first": 20,
+              "last": 20,
+              "numbers": [20]
+            },
+            "lines": [
+              {
+                "number": 20,
+                "calls": 1,
+                "covered": true,
+                "text": "dispatches_consensus_vote()"
+              }
+            ]
+          },
+          "right": {
+            "range": {
+              "first": 20,
+              "last": 20,
+              "numbers": [20]
+            },
+            "lines": [
+              {
+                "number": 20,
+                "calls": 0,
+                "covered": false,
+                "text": "dispatches_consensus_vote()"
+              }
+            ]
+          },
+          "residue": {
+            "reason": "coverage_changed",
+            "entries": [
+              {
+                "status": "existing_coverage_lost",
+                "left": {
+                  "number": 20,
+                  "calls": 1,
+                  "covered": true,
+                  "text": "dispatches_consensus_vote()"
+                },
+                "right": {
+                  "number": 20,
+                  "calls": 0,
+                  "covered": false,
+                  "text": "dispatches_consensus_vote()"
+                }
+              }
+            ],
+            "blocks": [],
+            "details": null
+          }
+        },
+        {
+          "status": "existing_coverage_mixed",
+          "left": {
+            "range": {
+              "first": 22,
+              "last": 23,
+              "numbers": [22, 23]
+            },
+            "lines": [
+              {
+                "number": 22,
+                "calls": 1,
+                "covered": true,
+                "text": "merges_revision_headers()"
+              },
+              {
+                "number": 23,
+                "calls": 1,
+                "covered": true,
+                "text": "replays_cached_decision()"
+              }
+            ]
+          },
+          "right": {
+            "range": {
+              "first": 22,
+              "last": 23,
+              "numbers": [22, 23]
+            },
+            "lines": [
+              {
+                "number": 22,
+                "calls": 2,
+                "covered": true,
+                "text": "merges_revision_headers()"
+              },
+              {
+                "number": 23,
+                "calls": 0,
+                "covered": false,
+                "text": "replays_cached_decision()"
+              }
+            ]
+          },
+          "residue": {
+            "reason": "coverage_changed",
+            "entries": [
+              {
+                "status": "existing_coverage_gained",
+                "left": {
+                  "number": 22,
+                  "calls": 1,
+                  "covered": true,
+                  "text": "merges_revision_headers()"
+                },
+                "right": {
+                  "number": 22,
+                  "calls": 2,
+                  "covered": true,
+                  "text": "merges_revision_headers()"
+                }
+              },
+              {
+                "status": "existing_coverage_lost",
+                "left": {
+                  "number": 23,
+                  "calls": 1,
+                  "covered": true,
+                  "text": "replays_cached_decision()"
+                },
+                "right": {
+                  "number": 23,
+                  "calls": 0,
+                  "covered": false,
+                  "text": "replays_cached_decision()"
+                }
+              }
+            ],
+            "blocks": [],
+            "details": null
+          }
+        },
+        {
+          "status": "moved_unchanged",
+          "left": {
+            "range": {
+              "first": 30,
+              "last": 35,
+              "numbers": [30, 31, 32, 33, 34, 35]
+            },
+            "lines": [
+              {
+                "number": 30,
+                "calls": 1,
+                "covered": true,
+                "text": "defmodule Certitudo.ExampleShift do"
+              },
+              {
+                "number": 31,
+                "calls": 1,
+                "covered": true,
+                "text": "  alias Certitudo.Coverage"
+              },
+              {
+                "number": 32,
+                "calls": 1,
+                "covered": true,
+                "text": ""
+              },
+              {
+                "number": 33,
+                "calls": 1,
+                "covered": true,
+                "text": "  def run do"
+              },
+              {
+                "number": 34,
+                "calls": 1,
+                "covered": true,
+                "text": "    Coverage.timestamp_id()"
+              },
+              {
+                "number": 35,
+                "calls": 1,
+                "covered": true,
+                "text": "  end"
+              }
+            ]
+          },
+          "right": {
+            "range": {
+              "first": 31,
+              "last": 37,
+              "numbers": [31, 32, 33, 34, 35, 36, 37]
+            },
+            "lines": [
+              {
+                "number": 31,
+                "calls": 1,
+                "covered": true,
+                "text": "defmodule Certitudo.ExampleShift do"
+              },
+              {
+                "number": 32,
+                "calls": 1,
+                "covered": true,
+                "text": "  @moduledoc false"
+              },
+              {
+                "number": 33,
+                "calls": 1,
+                "covered": true,
+                "text": "  alias Certitudo.Coverage"
+              },
+              {
+                "number": 34,
+                "calls": 1,
+                "covered": true,
+                "text": ""
+              },
+              {
+                "number": 35,
+                "calls": 1,
+                "covered": true,
+                "text": "  def run do"
+              },
+              {
+                "number": 36,
+                "calls": 1,
+                "covered": true,
+                "text": "    Coverage.timestamp_id()"
+              },
+              {
+                "number": 37,
+                "calls": 1,
+                "covered": true,
+                "text": "  end"
+              }
+            ]
+          },
+          "residue": null
+        },
+        {
+          "status": "moved_coverage_changed",
+          "left": {
+            "range": {
+              "first": 40,
+              "last": 41,
+              "numbers": [40, 41]
+            },
+            "lines": [
+              {
+                "number": 40,
+                "calls": 1,
+                "covered": true,
+                "text": "reconciles_remote_checkpoint()"
+              },
+              {
+                "number": 41,
+                "calls": 1,
+                "covered": true,
+                "text": "rebuilds_fallback_cursor()"
+              }
+            ]
+          },
+          "right": {
+            "range": {
+              "first": 44,
+              "last": 45,
+              "numbers": [44, 45]
+            },
+            "lines": [
+              {
+                "number": 44,
+                "calls": 2,
+                "covered": true,
+                "text": "reconciles_remote_checkpoint()"
+              },
+              {
+                "number": 45,
+                "calls": 0,
+                "covered": false,
+                "text": "rebuilds_fallback_cursor()"
+              }
+            ]
+          },
+          "residue": {
+            "reason": "coverage_changed",
+            "entries": [
+              {
+                "status": "existing_coverage_gained",
+                "left": {
+                  "number": 40,
+                  "calls": 1,
+                  "covered": true,
+                  "text": "reconciles_remote_checkpoint()"
+                },
+                "right": {
+                  "number": 44,
+                  "calls": 2,
+                  "covered": true,
+                  "text": "reconciles_remote_checkpoint()"
+                }
+              },
+              {
+                "status": "existing_coverage_lost",
+                "left": {
+                  "number": 41,
+                  "calls": 1,
+                  "covered": true,
+                  "text": "rebuilds_fallback_cursor()"
+                },
+                "right": {
+                  "number": 45,
+                  "calls": 0,
+                  "covered": false,
+                  "text": "rebuilds_fallback_cursor()"
+                }
+              }
+            ],
+            "blocks": [],
+            "details": null
+          }
+        },
+        {
+          "status": "ambiguous_moved",
+          "left": {
+            "range": {
+              "first": 50,
+              "last": 50,
+              "numbers": [50]
+            },
+            "lines": [
+              {
+                "number": 50,
+                "calls": 1,
+                "covered": true,
+                "text": "normalize_branch_state()"
+              }
+            ]
+          },
+          "right": {
+            "range": {
+              "first": 54,
+              "last": 54,
+              "numbers": [54]
+            },
+            "lines": [
+              {
+                "number": 54,
+                "calls": 1,
+                "covered": true,
+                "text": "normalize_branch_state()"
+              }
+            ]
+          },
+          "residue": {
+            "reason": "ambiguous_identity",
+            "entries": [],
+            "blocks": [],
+            "details": {
+              "candidates": 2
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
