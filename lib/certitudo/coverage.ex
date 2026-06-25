@@ -38,7 +38,8 @@ defmodule Certitudo.Coverage do
         run_label: run_label,
         prefixes: resolve_prefixes(opts),
         beam_dirs: Keyword.fetch!(opts, :beam_dirs),
-        ignore_modules: Keyword.fetch!(opts, :ignore_modules)
+        ignore_modules: Keyword.fetch!(opts, :ignore_modules),
+        own_modules: Keyword.get(opts, :own_modules, MapSet.new())
       )
 
     ctx
@@ -56,13 +57,15 @@ defmodule Certitudo.Coverage do
     run_id = Keyword.get(opts, :run_id, default_run_id())
     run_label = Keyword.get(opts, :run_label, "coverage")
     beam_dirs = Keyword.fetch!(opts, :beam_dirs)
+    own_modules = Keyword.get(opts, :own_modules, MapSet.new())
 
     {keep_modules, bulk_lines} =
       Runtime.import_coverdata!(
         coverdata_path,
         prefixes,
         ignore_modules,
-        beam_dirs
+        beam_dirs,
+        own_modules
       )
 
     Conspectus.Build.from_lines(

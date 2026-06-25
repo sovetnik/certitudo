@@ -94,7 +94,7 @@ defmodule Certitudo.Conspectus.Build do
     %{
       "covered_lines" => covered,
       "executable_lines" => executable,
-      "coverage_percent" => percent(covered, executable),
+      "coverage_percent" => percent(covered, executable, map_size(modules)),
       "modules" => map_size(modules)
     }
   end
@@ -102,6 +102,17 @@ defmodule Certitudo.Conspectus.Build do
   defp percent(_covered, 0), do: 100.0
 
   defp percent(covered, executable),
+    do: Float.round(covered / executable * 100.0, 2)
+
+  # No modules matched the filter at all — cannot measure, must not claim 100%.
+  defp percent(_covered, 0, 0), do: nil
+
+  # Modules matched, but every one of them genuinely has zero executable
+  # lines (e.g. a project consisting only of moduledoc/behaviour stubs) —
+  # legitimately 100%, same reasoning as the 2-arg per-module clause.
+  defp percent(_covered, 0, _module_count), do: 100.0
+
+  defp percent(covered, executable, _module_count),
     do: Float.round(covered / executable * 100.0, 2)
 
   defp normalize_line(line) when is_integer(line) and line > 0,

@@ -37,6 +37,7 @@ defmodule Mix.Tasks.Certitudo do
   use Mix.Task
 
   alias Certitudo.Coverage
+  alias Certitudo.Coverage.Runtime
 
   @shortdoc "Create coverage snapshot (+ optional diff.prev)"
 
@@ -97,13 +98,16 @@ defmodule Mix.Tasks.Certitudo do
 
       print_diff(result.diff, opts)
 
-      "Certitudo: #{result.snapshot["totals"]["coverage_percent"]}% for #{result.snapshot["totals"]["modules"]} modules"
+      "Certitudo: #{coverage_label(result.snapshot["totals"]["coverage_percent"])} for #{result.snapshot["totals"]["modules"]} modules"
       |> shell_info(opts)
 
       shell_info("", opts)
       maybe_hint_since(Path.basename(result.impressio_run_dir), opts)
     end
   end
+
+  defp coverage_label(nil), do: "coverage not measured (no modules matched)"
+  defp coverage_label(percent), do: "#{percent}%"
 
   defp run_tests_and_export_coverdata!(run_id, passthrough) do
     export_name = "export_#{run_id}"
@@ -128,11 +132,19 @@ defmodule Mix.Tasks.Certitudo do
   defp put_runtime_defaults(opts) do
     app = Mix.Project.config()[:app]
     build_path = Mix.Project.build_path()
+    beam_dirs = [Path.join([build_path, "lib", to_string(app), "ebin"])]
 
-    prefixes =
-      case Keyword.get_values(opts, :prefix) do
-        [] -> ["Elixir.#{Macro.camelize(to_string(app))}."]
-        values -> values
+    prefixes = Keyword.get_values(opts, :prefix)
+
+    own_modules =
+      case prefixes do
+        # no explicit --prefix: scope to what's actually compiled for this
+        # app (Runtime.own_module_names/1 — physical .beam files under
+        # beam_dirs, not a guess from the app name).
+        [] -> Runtime.own_module_names(beam_dirs)
+        # explicit --prefix given: caller's intent is authoritative, don't
+        # additively widen it back out with every compiled module.
+        _ -> MapSet.new()
       end
 
     ignore_modules =
@@ -141,10 +153,9 @@ defmodule Mix.Tasks.Certitudo do
         _ -> []
       end
 
-    beam_dirs = [Path.join([build_path, "lib", to_string(app), "ebin"])]
-
     opts
     |> Keyword.put(:prefixes, prefixes)
+    |> Keyword.put(:own_modules, own_modules)
     |> Keyword.put(:ignore_modules, ignore_modules)
     |> Keyword.put(:beam_dirs, beam_dirs)
   end

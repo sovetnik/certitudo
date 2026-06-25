@@ -3,14 +3,38 @@ defmodule Certitudo.Coverage.Runtime do
   Runtime access to Erlang `:cover` data for snapshot construction.
   """
 
+  @doc """
+  Lists the module names physically compiled into `beam_dirs`, derived from
+  `.beam` filenames (which Mix names `Elixir.Module.Name.beam` verbatim) —
+  not from any naming convention. Pure filesystem fact, callable before
+  `:cover` is even started.
+  """
+  @spec own_module_names([binary()]) :: MapSet.t(String.t())
+  def own_module_names(beam_dirs) when is_list(beam_dirs) do
+    for dir <- beam_dirs,
+        File.dir?(dir),
+        file <- File.ls!(dir),
+        String.ends_with?(file, ".beam"),
+        into: MapSet.new() do
+      Path.basename(file, ".beam")
+    end
+  end
+
   @spec import_coverdata!(
           binary(),
           [binary()],
           [module() | Regex.t() | binary()],
-          [binary()]
+          [binary()],
+          MapSet.t(String.t())
         ) ::
           {[module()], [{module(), integer(), non_neg_integer()}]}
-  def import_coverdata!(coverdata_path, prefixes, ignore_modules, beam_dirs)
+  def import_coverdata!(
+        coverdata_path,
+        prefixes,
+        ignore_modules,
+        beam_dirs,
+        own_modules \\ MapSet.new()
+      )
       when is_binary(coverdata_path) and is_list(prefixes) and
              is_list(ignore_modules) and
              is_list(beam_dirs) do
@@ -18,7 +42,7 @@ defmodule Certitudo.Coverage.Runtime do
     compile_beam_dirs!(beam_dirs)
     :ok = apply_cover(:import, [String.to_charlist(coverdata_path)])
 
-    keep_modules = modules(prefixes, ignore_modules)
+    keep_modules = modules(prefixes, ignore_modules, own_modules)
     keep_set = MapSet.new(keep_modules)
 
     {
@@ -72,19 +96,30 @@ defmodule Certitudo.Coverage.Runtime do
     |> Enum.map(fn {{mod, line}, state} -> {mod, line, state} end)
   end
 
-  @spec keep_module?(module(), [binary()], [module() | Regex.t() | binary()]) ::
-          boolean()
-  def keep_module?(mod, prefixes, ignore_modules)
+  @spec keep_module?(
+          module(),
+          [binary()],
+          [module() | Regex.t() | binary()],
+          MapSet.t(String.t())
+        ) :: boolean()
+  def keep_module?(
+        mod,
+        prefixes,
+        ignore_modules,
+        own_modules \\ MapSet.new()
+      )
       when is_atom(mod) and is_list(prefixes) and is_list(ignore_modules) do
     mod_name = to_string(mod)
-    prefixed?(mod_name, prefixes) and not ignored?(mod, ignore_modules)
+
+    (prefixed?(mod_name, prefixes) or MapSet.member?(own_modules, mod_name)) and
+      not ignored?(mod, ignore_modules)
   end
 
-  defp modules(prefixes, ignore_modules)
+  defp modules(prefixes, ignore_modules, own_modules)
        when is_list(prefixes) and is_list(ignore_modules) do
     apply_cover(:modules, [])
     |> Enum.filter(fn mod ->
-      keep_module?(mod, prefixes, ignore_modules)
+      keep_module?(mod, prefixes, ignore_modules, own_modules)
     end)
     |> Enum.sort_by(&to_string/1)
   end

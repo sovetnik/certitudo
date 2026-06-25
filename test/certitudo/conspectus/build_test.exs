@@ -30,11 +30,24 @@ defmodule Certitudo.Conspectus.BuildTest do
     assert mod["lines"]["11"]["covered"] == false
   end
 
-  test "from_lines with no modules produces 100% total coverage" do
+  test "from_lines with no modules reports coverage as unmeasured, not 100%" do
     snapshot =
       Build.from_lines("cover/test.coverdata", opts("empty"), [], [])
 
     assert snapshot["totals"]["modules"] == 0
+    assert snapshot["totals"]["coverage_percent"] == nil
+  end
+
+  test "from_lines with a kept module that genuinely has zero executable lines still reports 100%" do
+    snapshot =
+      Build.from_lines(
+        "cover/test.coverdata",
+        opts("trivial-module"),
+        [Certitudo.Coverage],
+        []
+      )
+
+    assert snapshot["totals"]["modules"] == 1
     assert snapshot["totals"]["coverage_percent"] == 100.0
   end
 
