@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 0.1.2 - 2026-07-22
+
+### Fixed
+- `mix certitudo`'s console output no longer prints one `moved_unchanged`
+  line per moved block. A refactor that shifts dozens of untouched blocks
+  (e.g. inserting a function above existing code) drowned the signal —
+  real coverage gains/losses — under a wall of refactor noise. Adjacent
+  `moved_unchanged` blocks now collapse into a single
+  `moved_unchanged (N): range, range, ...` line; all other statuses are
+  unaffected.
+
 ## 0.1.1 - 2026-06-25
 
 ### Fixed

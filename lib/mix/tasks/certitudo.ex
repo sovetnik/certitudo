@@ -237,7 +237,29 @@ defmodule Mix.Tasks.Certitudo do
     block_diffs
     |> Enum.filter(&printable_block_diff?/1)
     |> Enum.take(20)
-    |> Enum.each(fn diff ->
+    |> Enum.chunk_by(& &1["status"])
+    |> Enum.each(&print_block_chunk(&1, opts))
+  end
+
+  defp print_block_chunk([%{"status" => "moved_unchanged"} = diff], opts) do
+    shell_info("    moved_unchanged: #{diff_range(diff)}", opts, :magenta)
+  end
+
+  defp print_block_chunk(
+         [%{"status" => "moved_unchanged"} | _] = chunk,
+         opts
+       ) do
+    ranges = Enum.map_join(chunk, ", ", &diff_range/1)
+
+    shell_info(
+      "    moved_unchanged (#{length(chunk)}): #{ranges}",
+      opts,
+      :magenta
+    )
+  end
+
+  defp print_block_chunk(chunk, opts) do
+    Enum.each(chunk, fn diff ->
       color = status_color(diff["status"])
 
       shell_info(
